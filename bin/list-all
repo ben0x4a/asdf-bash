@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+BASH_VERSIONS=$(cat version-list.txt)
+
+
+echo $BASH_VERSIONS

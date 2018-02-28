@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+function download_source() {
+  local download_url="http://ftpmirror.gnu.org/bash/bash-${ASDF_INSTALL_VERSION}.tar.gz"
+  local sig_url="${download_url}.sig"
+
+  (
+      cd "${tmp_download_dir}"
+      curl -Lo"bash-${ASDF_INSTALL_VERSION}.tar.gz"     "${download_url}"
+      curl -Lo"bash-${ASDF_INSTALL_VERSION}.tar.gz.sig" "${sig_url}"
+  )
+}
+
+function verify_sig () {
+    echo "TBD"
+}
+
+function extract() {
+  (
+      cd "${tmp_download_dir}"
+#      tar -xzf 
+  )
+
+}
+
+
+
+
+
+
+
+
+
+
+start_dir=$(pwd)
+tmp_download_dir=$(mktemp -d -t bash_build_XXXXXX)
+
+
+echo "${tmp_download_dir}"
+echo "$ASDF_INSTALL_TYPE"
+echo "$ASDF_INSTALL_VERSION"
+echo "$ASDF_INSTALL_PATH"
+
+download_source 
+verify_sig
+extract
+
+
+
+

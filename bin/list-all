@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 
-BASH_VERSIONS=$(cat version-list.txt)
 
 
-echo $BASH_VERSIONS
+## from https://github.com/vic/asdf-idris/blob/master/bin/list-all#L6
+# stolen from https://github.com/rbenv/ruby-build/pull/631/files#diff-fdcfb8a18714b33b07529b7d02b54f1dR942
+function sort_versions() {
+  sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' | \
+    LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n -k 4,4n -k 5,5n | awk '{print $2}'
+}
+
+
+#BASH_VERSIONS=$(cat version-list.txt | sort_versions)
+#echo $BASH_VERSIONS
+
+VERSIONS=$(links -dump http://ftpmirror.gnu.org/bash/  \
+                  | sed -e '/bash-[0-9].*tar.gz /!d' -e 's/.*bash-\(.*\).tar.gz.*/\1/' \
+                  | sort_versions)
+
+
+echo $VERSIONS

@@ -18,13 +18,23 @@ function verify_sig () {
 function extract() {
   (
       cd "${tmp_download_dir}"
-#      tar -xzf 
+      tar -xzf "bash-${ASDF_INSTALL_VERSION}.tar.gz"
   )
 
 }
 
+function build() {
+    cd "${tmp_download_dir}/bash-${ASDF_INSTALL_VERSION}"
+    ./configure --prefix="${ASDF_INSTALL_PATH}"
+    make
+    make install
+}
 
 
+function cleanup() {
+    echo 
+    echo rm -rf  "${tmp_download_dir}"
+}
 
 
 
@@ -36,15 +46,17 @@ start_dir=$(pwd)
 tmp_download_dir=$(mktemp -d -t bash_build_XXXXXX)
 
 
-echo "${tmp_download_dir}"
-echo "$ASDF_INSTALL_TYPE"
-echo "$ASDF_INSTALL_VERSION"
-echo "$ASDF_INSTALL_PATH"
+echo "tmp_download_dir      ${tmp_download_dir}"
+echo "ASDF_INSTALL_TYPE     $ASDF_INSTALL_TYPE"
+echo "ASDF_INSTALL_VERSION  $ASDF_INSTALL_VERSION"
+echo "ASDF_INSTALL_PATH     $ASDF_INSTALL_PATH"
+
 
 download_source 
 verify_sig
 extract
-
+build
+cleanup
 
 
 
